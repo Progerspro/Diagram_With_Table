@@ -5,7 +5,6 @@
 #-------------------------------------------------
 
 QT       += core gui
-CONFIG += qwt
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Diagram_program

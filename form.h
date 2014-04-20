@@ -21,12 +21,15 @@ public:
     QVBoxLayout* layout;
     QString str;
     QLabel lbl;
+    QCPBars* bar[5];
+    QPen graphPen;
     void show_diagram();
-    void draw(int table_count, QTableWidgetItem* Name);
+    void draw(int Graph_Count,QTableWidgetItem* Name);
     void init();
-    void count(int max_size, QTableWidgetItem *item);
+    void count(int max_size, QTableWidgetItem* item_Num, int Key);
     void temp_test(int table_count,QString Name);
     void temp_count(int max_size);
+    void clean_all();
 private:
     Ui::Form *ui;
 };

@@ -13,6 +13,8 @@ class MainWindow : public QMainWindow,public Data
     Q_OBJECT
 private:
     int error;
+    int i;
+    int cou;
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();

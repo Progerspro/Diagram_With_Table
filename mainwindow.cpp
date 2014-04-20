@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     error = 0;
     ui->setupUi(this);
     //Количество строк
-    ui->tableWidget->setRowCount(3);
+    ui->tableWidget->setRowCount(2);
     center_wid = new QWidget(this);
     setCentralWidget(center_wid);
     vlayout = new QVBoxLayout(center_wid);
@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->action,SIGNAL(triggered()),this,SLOT(quit()));
     connect(ui->action_2,SIGNAL(triggered()),this,SLOT(about()));
     form = new Form;
+    i = 0;
+    cou = 1;
 }
 
 MainWindow::~MainWindow()
@@ -29,18 +31,22 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_tableWidget_cellDoubleClicked(int row, int column)
 {
-    row = ui->tableWidget->rowCount();
-    column = ui->tableWidget->columnCount();
-    if(column <= 4)
+    ++i;
+    if(i == 1)
     {
-    ui->tableWidget->setColumnCount(column + 1);
+         ui->tableWidget->insertColumn(ui->tableWidget->columnCount());
     }
-    else
+    else if(column == cou)
     {
-        error++;
-        if(error <= 1)
-        Error_message.show();
-        return;
+        if(column >= 4)
+        {
+            error++;
+            if(error <= 1)
+            Error_message.show();
+            return;
+        }
+        ui->tableWidget->insertColumn(ui->tableWidget->columnCount());
+        cou++;
     }
 }
 //For quit
@@ -71,16 +77,27 @@ void MainWindow::messages_init()
 //TODO Fix the item take
 void MainWindow::on_pushButton_clicked()
 {
-    column_num = ui->tableWidget->columnCount();
+    form->clean_all();
+    int num = 0;
+    int num1 = 0;
     form->init();
-    for(int a = 1;a <= 2;a++)
-        for(int b = 0; b < ui->tableWidget->columnCount();b++)
+    for(int a = num;a < ui->tableWidget->columnCount();a++)
+    {
+        for(int b = num1; b < 5;b++)
         {
-    form->count(500,ui->tableWidget->item(a,b));
+    if(ui->tableWidget->columnCount() == 5)
+    {
+        form->count(10000,ui->tableWidget->item(1,b),ui->tableWidget->columnCount());
+    }
+    else if(ui->tableWidget->columnCount() < 5 )
+    {
+        form->count(10000,ui->tableWidget->item(1,b),ui->tableWidget->columnCount() - 1);
+    }
+    num1++;
+    break;
         }
-        for(int a = 0; a < ui->tableWidget->columnCount();a++)
-        {
-             form->draw(ui->tableWidget->columnCount(),ui->tableWidget->item(0,a));
-        }
+        num++;
+        form->draw(num,ui->tableWidget->item(0,a));
+    }
     form->show();
 }
